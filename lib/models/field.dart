@@ -44,7 +44,7 @@ class Field {
     }
   }
 
-  void unveilBombs() {
+  void unveilBomb() {
     if (_mined) {
       _opened = true;
     }
