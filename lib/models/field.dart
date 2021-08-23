@@ -40,7 +40,7 @@ class Field {
     }
 
     if (safeNeightbor) {
-      neighbors.forEach((v) => v.open());
+      neighbors.forEach((n) => n.open());
     }
   }
 

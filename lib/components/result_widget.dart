@@ -2,21 +2,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ResultsWidget extends StatelessWidget implements PreferredSizeWidget {
-  final bool won;
-  final bool finished;
+  final bool? won;
   final void Function() onReset;
 
-  const ResultsWidget(
-      {Key? key,
-      required this.won,
-      required this.onReset,
-      required this.finished})
-      : super(key: key);
+  const ResultsWidget({
+    Key? key,
+    required this.won,
+    required this.onReset,
+  }) : super(key: key);
 
   Color? _getColor() {
-    if (finished == false) {
+    if (won == null) {
       return Colors.yellow;
-    } else if (won) {
+    } else if (won == true) {
       return Colors.green[300];
     } else {
       return Colors.red[300];
@@ -24,9 +22,9 @@ class ResultsWidget extends StatelessWidget implements PreferredSizeWidget {
   }
 
   IconData _getIcon() {
-    if (finished == false) {
+    if (won == null) {
       return Icons.sentiment_satisfied;
-    } else if (won) {
+    } else if (won == true) {
       return Icons.sentiment_very_satisfied;
     } else {
       return Icons.sentiment_very_dissatisfied;
