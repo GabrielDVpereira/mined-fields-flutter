@@ -14,16 +14,12 @@ class MinedFieldApp extends StatefulWidget {
 
 class _MinedFieldAppState extends State<MinedFieldApp> {
   bool? _won = false;
-  Board _board = Board(
-    columns: 15,
-    lines: 15,
-    numberOfBombs: 3,
-  );
+  Board? _board;
 
   void _reset() {
     setState(() {
       _won = null;
-      _board.reset();
+      _board!.reset();
     });
   }
 
@@ -32,12 +28,12 @@ class _MinedFieldAppState extends State<MinedFieldApp> {
     setState(() {
       try {
         field.open();
-        if (_board.resolved) {
+        if (_board!.resolved) {
           _won = true;
         }
       } on ExplosionExeption {
         _won = false;
-        _board.unveildBombs();
+        _board!.unveildBombs();
       }
     });
   }
@@ -46,10 +42,26 @@ class _MinedFieldAppState extends State<MinedFieldApp> {
     if (_won != null) return;
     setState(() {
       field.toggleMark();
-      if (_board.resolved) {
+      if (_board!.resolved) {
         _won = true;
       }
     });
+  }
+
+  Board? _getBoard(double width, double height) {
+    if (_board == null) {
+      int numberOfColumns = 15;
+      double sizeOfField = width / numberOfColumns;
+      int numberOfLines = (height / sizeOfField).floor();
+
+      _board = Board(
+        lines: numberOfLines,
+        columns: numberOfColumns,
+        numberOfBombs: 3,
+      );
+    }
+
+    return _board;
   }
 
   @override
@@ -61,10 +73,18 @@ class _MinedFieldAppState extends State<MinedFieldApp> {
           onReset: _reset,
         ),
         body: Container(
-          child: BoardWidget(
-            board: _board,
-            onOpen: _open,
-            onToggleMark: _toggleMark,
+          color: Colors.grey,
+          child: LayoutBuilder(
+            builder: (ctx, constraints) {
+              return BoardWidget(
+                board: _getBoard(
+                  constraints.maxWidth,
+                  constraints.maxHeight,
+                )!,
+                onOpen: _open,
+                onToggleMark: _toggleMark,
+              );
+            },
           ),
         ),
       ),
