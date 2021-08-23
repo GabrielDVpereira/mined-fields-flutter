@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:miner_field/components/board_widget.dart';
+import 'package:miner_field/components/field_widget.dart';
 import 'package:miner_field/components/result_widget.dart';
+import 'package:miner_field/models/board.dart';
 import 'package:miner_field/models/explosion_exeption.dart';
 import 'package:miner_field/models/field.dart';
 
@@ -11,9 +13,13 @@ class MinedFieldApp extends StatelessWidget {
     print('reset...');
   }
 
-  void _open(Field field) {}
+  void _open(Field field) {
+    print('open...');
+  }
 
-  void _toggleMark(Field field) {}
+  void _toggleMark(Field field) {
+    print('toggle mark...');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +37,14 @@ class MinedFieldApp extends StatelessWidget {
           finished: false,
         ),
         body: Container(
-          child: FieldWidget(
-            field: field,
+          child: BoardWidget(
+            board: Board(
+              columns: 15,
+              lines: 15,
+              numberOfBombs: 0,
+            ),
             onOpen: _open,
-            toggleMark: _toggleMark,
+            onToggleMark: _toggleMark,
           ),
         ),
       ),
